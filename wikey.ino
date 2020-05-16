@@ -1,5 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
+#include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <FS.h>
 
@@ -14,9 +15,14 @@ const char *password = APPSK;
 ESP8266WebServer server(80);
 
 void setup() {
+  // accessPoint
   setupAccessPoint();
+
+  // webServer
+  setupWebServer();
 }
 
 void loop() {
-  loopAccessPoint();
+  // webServer
+  loopWebServer();
 }
