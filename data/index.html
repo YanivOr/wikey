@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Welcome to wikey</h1>
+  <p>Please enter the wireless network details you would like to connect to</p>
+  <form method="POST">
+    <h3>Main network (mandatory)</h3>
+    <div class="row">
+      <label>SSID</label>
+      <input name="ssid-main" type="text" />
+    </div>
+    <div class="row">
+      <label>Password</label>
+      <input name="password-main"  type="password" />
+    </div>
+    <h3>Fallback network</h3>
+    <div class="row">
+      <label>SSID</label>
+      <input name="ssid-fallback" type="text" />
+    </div>
+    <div class="row">
+      <label>Password</label>
+      <input name="password-fallback" type="password" />
+    </div>
+    <div class="buttons-wrapper">
+      <input type="submit" />
+    </div>
+  </form>
+</body>
+</html>
+
