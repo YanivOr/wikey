@@ -1,5 +1,5 @@
 void setupStation(String ssid, String password) {
-  WiFi.mode(WIFI_STA);
+  WiFi.mode(WIFI_AP_STA);
   WiFi.begin(ssid, password);
 
   // Wait for connection
