@@ -2,29 +2,25 @@ void handleRoot() {
   handleFileRead("/");
 
   if (server.method() == HTTP_POST) {
+    String ssidMain, passwordMain, ssidFallback, passwordFallback;
+    
     for (uint8_t i = 0; i < server.args(); i++) {
       if (server.argName(i) == "ssid-main") {
-        String ssidMain = server.arg(i);
-        Serial.println("ssidMain = " + ssidMain);
+        ssidMain = server.arg(i);
       }
       if (server.argName(i) == "password-main") {
-        String passwordMain = server.arg(i);
-        Serial.println("passwordMain = " + passwordMain);
+        passwordMain = server.arg(i);
       }
       if (server.argName(i) == "ssid-fallback") {
-        String ssidFallback = server.arg(i);
-        Serial.println("ssidFallback = " + ssidFallback);
+        ssidFallback = server.arg(i);
       }
       if (server.argName(i) == "password-fallback") {
-        String passwordFallback = server.arg(i);
-        Serial.println("passwordFallback = " + passwordFallback);
+        passwordFallback = server.arg(i);
       }
     }
-  }
 
-/*
-  setupStation(String ssid, String password)
-*/
+    setupStation(ssidMain, passwordMain);
+  }
 }
 
 void handleStyle() {
