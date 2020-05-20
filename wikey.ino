@@ -15,11 +15,17 @@ const char *password = APPSK;
 ESP8266WebServer server(80);
 
 void setup() {
-  // accessPoint
+  // Debugger
+  setupDebugger();
+  
+  // Access Point
   setupAccessPoint();
 
-  // webServer
+  // Web Server
   setupWebServer();
+
+  // GPIO
+  setupGpio();
 }
 
 void loop() {
