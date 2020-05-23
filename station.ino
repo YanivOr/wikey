@@ -12,4 +12,9 @@ void setupStation(String ssid, String password) {
   Serial.println(ssid);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+
+  // Connect to server
+  Serial.print("Connecting to remote server via websocket...");
+  wsClient.connect(remoteServer);
+  Serial.println("connected");
 }

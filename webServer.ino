@@ -1,9 +1,15 @@
 void handleRoot() {
   handleFileRead("/");
+}
 
+void handleStyle() {
+  handleFileRead("/style.css");
+}
+
+void handleResponse() {
   if (server.method() == HTTP_POST) {
     String ssidMain, passwordMain, ssidFallback, passwordFallback;
-    
+
     for (uint8_t i = 0; i < server.args(); i++) {
       if (server.argName(i) == "ssid-main") {
         ssidMain = server.arg(i);
@@ -20,11 +26,9 @@ void handleRoot() {
     }
 
     setupStation(ssidMain, passwordMain);
-  }
-}
 
-void handleStyle() {
-  handleFileRead("/style.css");
+    handleFileRead("/response.html");
+  }
 }
 
 String getContentType(String filename) {
@@ -52,6 +56,7 @@ bool handleFileRead(String path) {
 void setupWebServer() {
   server.on("/", handleRoot);
   server.on("/style.css", handleStyle);
+  server.on("/response.html", handleResponse);
   server.begin();
   SPIFFS.begin();
   Serial.println("HTTP server started");
