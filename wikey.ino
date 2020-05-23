@@ -4,6 +4,7 @@
 #include <ESP8266WebServer.h>
 #include <ArduinoWebsockets.h>
 #include <FS.h>
+#include <ArduinoJson.h>
 
 using namespace websockets;
 
@@ -13,6 +14,7 @@ const char *remoteServer = "ws://192.168.1.9:3000";
 
 ESP8266WebServer server(80);
 WebsocketsClient wsClient;
+StaticJsonDocument<200> doc;
 
 void setup() {
   // Debugger
