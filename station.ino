@@ -24,3 +24,7 @@ void setupStation(String ssid, String password, bool saveData) {
   wsClient.send("{\"id\":\"123456\", \"type\": \"device\", \"command\": \"INIT\"}");
   Serial.println("connected");
 }
+
+void disconnectStation() {
+  WiFi.disconnect();
+}

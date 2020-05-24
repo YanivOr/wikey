@@ -1,5 +1,19 @@
 void handleRoot() {
-  if (isStationSet) {
+  if (server.method() == HTTP_POST) {
+    String resetStation;
+
+    for (uint8_t i = 0; i < server.args(); i++) {
+      if (server.argName(i) == "reset") {
+        resetStation = server.arg(i);
+      }
+    }
+
+    if (resetStation.equals("1")) {
+      clearEeprom();
+      handleFileRead("/");
+      disconnectStation();
+    }
+  } else if (isStationSet) {
     handleFileRead("/response.html");
     
   } else {
