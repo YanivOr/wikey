@@ -2,6 +2,7 @@
 #include <WiFiClient.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <EEPROM.h>
 #include <ArduinoWebsockets.h>
 #include <FS.h>
 #include <ArduinoJson.h>
@@ -11,6 +12,10 @@ using namespace websockets;
 const char *ssid = "wikey";
 const char *password = "11111111";
 const char *remoteServer = "ws://192.168.1.9:3000";
+const int eepromSize = 512;
+const int uid = 123456;
+
+bool isStationSet = false;
 
 ESP8266WebServer server(80);
 WebsocketsClient wsClient;
@@ -19,6 +24,9 @@ StaticJsonDocument<200> doc;
 void setup() {
   // Debugger
   setupDebugger();
+
+  // Eeprom
+  setupEeprom();
   
   // Access Point
   setupAccessPoint();

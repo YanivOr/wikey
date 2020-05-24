@@ -1,5 +1,10 @@
 void handleRoot() {
-  handleFileRead("/");
+  if (isStationSet) {
+    handleFileRead("/response.html");
+    
+  } else {
+    handleFileRead("/");
+  }
 }
 
 void handleStyle() {
@@ -25,7 +30,7 @@ void handleResponse() {
       }
     }
 
-    setupStation(ssidMain, passwordMain);
+    setupStation(ssidMain, passwordMain, true);
 
     handleFileRead("/response.html");
   }
@@ -54,6 +59,17 @@ bool handleFileRead(String path) {
 }
 
 void setupWebServer() {
+  String eepromData = getEeprom();
+  DeserializationError error = deserializeJson(doc, eepromData);
+
+  const String ssid = doc["ssid"];
+  const String password = doc["password"];
+  
+  if (!ssid.equals("null") && !password.equals("null")) {
+    setupStation(ssid, password, false);
+    isStationSet = true;
+  }
+  
   server.on("/", handleRoot);
   server.on("/style.css", handleStyle);
   server.on("/response.html", handleResponse);
