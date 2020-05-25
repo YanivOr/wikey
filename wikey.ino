@@ -12,14 +12,15 @@ using namespace websockets;
 const char *ssid = "wikey";
 const char *password = "11111111";
 const char *remoteServer = "ws://192.168.1.9:3000";
-const int eepromSize = 512;
-const int uid = 123456;
+const int eepromSize = 4096;
 
 bool isStationSet = false;
+int StaConCntr = 0;
+String uid;
 
 ESP8266WebServer server(80);
 WebsocketsClient wsClient;
-StaticJsonDocument<200> doc;
+StaticJsonDocument<4096> doc;
 
 void setup() {
   // Debugger
@@ -27,6 +28,13 @@ void setup() {
 
   // Eeprom
   setupEeprom();
+
+  // Unique ID
+  if (!doc["uid"]) {
+    setupUid();
+  } else {
+    uid = String((const char*)doc["uid"]);
+  }
   
   // Access Point
   setupAccessPoint();

@@ -24,7 +24,7 @@ void onMessageCallback(WebsocketsMessage message) {
 void onEventsCallback(WebsocketsEvent event, String data) {
   if(event == WebsocketsEvent::ConnectionOpened) {
     Serial.println("Connnection Opened");
-    wsClient.send("{\"id\":\"" + String(uid) + "\", \"type\": \"device\", \"command\": \"INIT\"}");    
+    // wsClient.send("{\"id\":\"" + String(uid) + "\", \"type\": \"device\", \"command\": \"INIT\"}");    
   } else if(event == WebsocketsEvent::ConnectionClosed) {
     Serial.println("Connnection Closed");
   } else if(event == WebsocketsEvent::GotPing) {

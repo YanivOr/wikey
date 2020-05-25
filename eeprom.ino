@@ -1,5 +1,6 @@
 void setupEeprom() {
   EEPROM.begin(eepromSize);
+  getJson();
 }
 
 void setEeprom(const String &val) {
@@ -28,4 +29,9 @@ void clearEeprom() {
     EEPROM.write(0x0F+i, 0x0F);
   }
   EEPROM.commit();
+}
+
+void getJson() {
+  String eepromData = getEeprom();
+  DeserializationError error = deserializeJson(doc, eepromData);
 }

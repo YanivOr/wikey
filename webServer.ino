@@ -1,17 +1,15 @@
 void handleRoot() {
   if (server.method() == HTTP_POST) {
-    String resetStation;
+    String resetStationRequest;
 
     for (uint8_t i = 0; i < server.args(); i++) {
       if (server.argName(i) == "reset") {
-        resetStation = server.arg(i);
+        resetStationRequest = server.arg(i);
       }
     }
 
-    if (resetStation.equals("1")) {
-      clearEeprom();
-      handleFileRead("/");
-      disconnectStation();
+    if (resetStationRequest.equals("1")) {
+      resetStation();
     }
   } else if (isStationSet) {
     handleFileRead("/response.html");
@@ -44,9 +42,21 @@ void handleResponse() {
       }
     }
 
-    setupStation(ssidMain, passwordMain, true);
-
     handleFileRead("/response.html");
+
+    String stationData = "{";
+    stationData += "\"uid\":\"" + uid + "\",";
+    stationData += "\"ssidMain\":\"" + ssidMain + "\",";
+    stationData += "\"passwordMain\":\"" + passwordMain + "\",";
+    stationData += "\"ssidFallback\":\"" + ssidFallback + "\",";
+    stationData += "\"passwordFallback\":\"" + passwordFallback + "\"";
+    stationData += "}";
+    setEeprom(stationData);
+
+    isStationSet = setupStation(ssidMain, passwordMain);
+    if (!isStationSet) {
+      isStationSet = setupStation(ssidFallback, passwordFallback);
+    }
   }
 }
 
@@ -73,17 +83,17 @@ bool handleFileRead(String path) {
 }
 
 void setupWebServer() {
-  String eepromData = getEeprom();
-  DeserializationError error = deserializeJson(doc, eepromData);
-
-  const String ssid = doc["ssid"];
-  const String password = doc["password"];
+  const String ssidMain = doc["ssidMain"];
+  const String passwordMain = doc["passwordMain"];
+  const String ssidFallback = doc["ssidFallback"];
+  const String passwordFallback = doc["passwordFallback"];
   
-  if (!ssid.equals("null") && !password.equals("null")) {
-    setupStation(ssid, password, false);
-    isStationSet = true;
+  if (!ssidMain.equals("null") && !ssidMain.equals("") && !passwordMain.equals("null") && !passwordMain.equals("")) {
+    isStationSet = setupStation(ssidMain, passwordMain);
+    if (!isStationSet && !ssidFallback.equals("null") && !ssidFallback.equals("") && !passwordFallback.equals("null") && !passwordFallback.equals("")) {
+      isStationSet = setupStation(ssidFallback, passwordFallback);
+    }
   }
-  
   server.on("/", handleRoot);
   server.on("/style.css", handleStyle);
   server.on("/response.html", handleResponse);
