@@ -32,31 +32,11 @@ void onEventsCallback(WebsocketsEvent event, String data) {
 }
 
 void setupWebsocket() {
-  // wsServer
-  // wsServer.listen(81);
-
-  // wsClient
   wsClient.onMessage(onMessageCallback);
   wsClient.onEvent(onEventsCallback);
 }
 
 void loopWebsocket() {
-  // wsServer
-  // auto remoteWsClient = wsServer.accept();
-
-  /*
-  if(remoteWsClient.available()) {
-    auto msg = remoteWsClient.readBlocking();
-
-    Serial.print("Got Message: ");
-    Serial.println(msg.data());
-
-    remoteWsClient.send("Echo: " + msg.data());
-    remoteWsClient.close();
-  }
-  */
-  
-  // wsClient
   wsClient.poll();
 }
 
