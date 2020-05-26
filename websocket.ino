@@ -23,8 +23,7 @@ void onMessageCallback(WebsocketsMessage message) {
 
 void onEventsCallback(WebsocketsEvent event, String data) {
   if(event == WebsocketsEvent::ConnectionOpened) {
-    Serial.println("Connnection Opened");
-    // wsClient.send("{\"id\":\"" + String(uid) + "\", \"type\": \"device\", \"command\": \"INIT\"}");    
+    Serial.println("Connnection Opened");  
   } else if(event == WebsocketsEvent::ConnectionClosed) {
     Serial.println("Connnection Closed");
   } else if(event == WebsocketsEvent::GotPing) {
@@ -33,12 +32,32 @@ void onEventsCallback(WebsocketsEvent event, String data) {
 }
 
 void setupWebsocket() {
+  // wsServer
+  // wsServer.listen(81);
+
+  // wsClient
   wsClient.onMessage(onMessageCallback);
   wsClient.onEvent(onEventsCallback);
 }
 
 void loopWebsocket() {
-    wsClient.poll();
+  // wsServer
+  // auto remoteWsClient = wsServer.accept();
+
+  /*
+  if(remoteWsClient.available()) {
+    auto msg = remoteWsClient.readBlocking();
+
+    Serial.print("Got Message: ");
+    Serial.println(msg.data());
+
+    remoteWsClient.send("Echo: " + msg.data());
+    remoteWsClient.close();
+  }
+  */
+  
+  // wsClient
+  wsClient.poll();
 }
 
 void handleCmdGpio(int pin, int val) {

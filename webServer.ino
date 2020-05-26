@@ -19,6 +19,11 @@ void handleRoot() {
   }
 }
 
+void handleDataJs() {
+  String content = "const uid = " + uid + "";
+  server.send(200, "application/javascript", content);
+}
+
 void handleStyle() {
   handleFileRead("/style.css");
 }
@@ -95,6 +100,7 @@ void setupWebServer() {
     }
   }
   server.on("/", handleRoot);
+  server.on("/data.js", handleDataJs);
   server.on("/style.css", handleStyle);
   server.on("/response.html", handleResponse);
   server.begin();

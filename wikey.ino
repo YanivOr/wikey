@@ -19,6 +19,8 @@ int StaConCntr = 0;
 String uid;
 
 ESP8266WebServer server(80);
+// WebsocketsServer wsServer;
+// WebsocketsClient remoteWsClient;
 WebsocketsClient wsClient;
 StaticJsonDocument<4096> doc;
 
