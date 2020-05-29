@@ -32,8 +32,7 @@ bool setupStation(String ssid, String password) {
 
 void connectToServer() {
   Serial.print("Connecting to remote server via websocket...");
-  wsClient.connect(remoteServer);
-  wsClient.send("{\"id\":\"" + uid + "\", \"type\": \"device\", \"command\": \"INIT\"}");
+  setupWebSocketClient();
   Serial.println("connected");
 }
 

@@ -3,23 +3,23 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <EEPROM.h>
-#include <ArduinoWebsockets.h>
+#include <WebSocketsClient.h>
 #include <FS.h>
 #include <ArduinoJson.h>
 
-using namespace websockets;
-
 const char *ssid = "wikey";
 const char *password = "11111111";
-const char *remoteServer = "ws://192.168.1.9:3000";
+const char *remoteServerIP = "192.168.1.9";
+const int remoteServerPort = 3000;
 const int eepromSize = 4096;
 
+String payloadStr;
 bool isStationSet = false;
 int StaConCntr = 0;
 String uid;
 
 ESP8266WebServer server(80);
-WebsocketsClient wsClient;
+WebSocketsClient webSocketClient;
 StaticJsonDocument<4096> doc;
 
 void setup() {
@@ -43,7 +43,7 @@ void setup() {
   setupWebServer();
 
   // WebSocket
-  setupWebsocket();
+  
 }
 
 void loop() {
@@ -51,5 +51,5 @@ void loop() {
   loopWebServer();
   
   // WebSocket
-  loopWebsocket();
+  webSocketClient.loop();
 }
