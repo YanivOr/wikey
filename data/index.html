@@ -9,8 +9,9 @@
 <body>
   <div class="main-wrapper">
     <h1>Welcome to wikey</h1>
-    <h2 class="uid">0000000000</h2>
-    <form action="response.html" method="POST">
+
+    <div id="init-block">
+      <h2 class="uid">0000000000</h2>
       <h3>Main network (mandatory)</h3>
       <div class="row">
         <label>SSID</label>
@@ -32,15 +33,15 @@
       <div class="buttons-wrapper">
         <input type="submit" />
       </div>
-    </form>
+    </div>
+
+    <div id="process-block">
+      <div class="status"></div>
+      <input type="reset" />
+    </div>
   </div>
-  
-  <script src="./data.js"></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('h2.uid').innerHTML = uid
-  })
-  </script>
+
+  <script src="./app.js"></script>
 </body>
 </html>
 

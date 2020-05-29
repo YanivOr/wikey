@@ -28,10 +28,6 @@ body {
   letter-spacing: 3px;
 }
 
-form {
-  width: 265px;
-}
-
 .row {
   display: flex;
   flex-direction: row;
@@ -69,4 +65,9 @@ input[type="submit"] {
   width: 70px;
   padding: 4px;
   background: #eeeeee;
+  outline: none;
+}
+
+#init-block, #process-block {
+  display: none;
 }

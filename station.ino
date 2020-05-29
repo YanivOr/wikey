@@ -44,5 +44,5 @@ void resetStation() {
   Serial.println("Resetting station...");
   clearEeprom();
   disconnectStation();
-  handleFileRead("/");
+  isStationSet = false;
 }

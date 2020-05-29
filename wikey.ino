@@ -3,6 +3,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <EEPROM.h>
+#include <WebSocketsServer.h>
 #include <WebSocketsClient.h>
 #include <FS.h>
 #include <ArduinoJson.h>
@@ -19,6 +20,7 @@ int StaConCntr = 0;
 String uid;
 
 ESP8266WebServer server(80);
+WebSocketsServer webSocketServer = WebSocketsServer(81);
 WebSocketsClient webSocketClient;
 StaticJsonDocument<4096> doc;
 
@@ -43,7 +45,7 @@ void setup() {
   setupWebServer();
 
   // WebSocket
-  
+  setupWebSocketServer();
 }
 
 void loop() {
@@ -51,5 +53,6 @@ void loop() {
   loopWebServer();
   
   // WebSocket
+  webSocketServer.loop();
   webSocketClient.loop();
 }

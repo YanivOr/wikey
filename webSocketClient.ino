@@ -19,7 +19,7 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
     case WStype_CONNECTED: {
       payloadStr = (char*)payload;
       
-      Serial.println("[WSc] Connected to url:");
+      Serial.print("[WSc] Connected to url:");
       Serial.println(payloadStr);
 
       // send message to server when Connected
@@ -29,13 +29,13 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
     case WStype_TEXT:
       payloadStr = (char*)payload;
       
-      Serial.println("[WSc] get text");
+      Serial.println("[WSc] got text");
       Serial.println(payloadStr);
 
-      handleMessage(payloadStr);
+      handleClientMessage(payloadStr);
       break;
     case WStype_BIN:
-      Serial.println("[WSc] get binary length:");
+      Serial.println("[WSc] got binary length:");
       Serial.println(length);
       //hexdump(payload, length);
 
@@ -44,16 +44,16 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
       break;
     case WStype_PING:
       // pong will be send automatically
-      Serial.println("[WSc] get ping\n");
+      Serial.println("[WSc] got ping\n");
       break;
     case WStype_PONG:
       // answer to a ping we send
-      Serial.println("[WSc] get pong\n");
+      Serial.println("[WSc] got pong\n");
       break;
    }
 }
 
-void handleMessage(String payloadStr) {
+void handleClientMessage(String payloadStr) {
   DeserializationError error = deserializeJson(doc, payloadStr);
   
   if (error) {
@@ -65,11 +65,11 @@ void handleMessage(String payloadStr) {
   const String command = doc["command"];
   
   if (command.equals("GPIO")) {
-  handleCmdGpio(doc["data"]["pin"], doc["data"]["val"]);
+    handleCmdGpio(doc["data"]["pin"], doc["data"]["val"]);
   } else if (command=="PULSE") {
-  handleCmdPulse(doc["data"]["pin"], doc["data"]["val"]);
+    handleCmdPulse(doc["data"]["pin"], doc["data"]["val"]);
   } else if (command=="STR") {
-  handleCmdStr(doc["data"]["val"]);
+    handleCmdStr(doc["data"]["val"]);
   }
 }
 

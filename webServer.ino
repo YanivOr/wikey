@@ -1,68 +1,13 @@
 void handleRoot() {
-  if (server.method() == HTTP_POST) {
-    String resetStationRequest;
-
-    for (uint8_t i = 0; i < server.args(); i++) {
-      if (server.argName(i) == "reset") {
-        resetStationRequest = server.arg(i);
-      }
-    }
-
-    if (resetStationRequest.equals("1")) {
-      resetStation();
-    }
-  } else if (isStationSet) {
-    handleFileRead("/response.html");
-    
-  } else {
-    handleFileRead("/");
-  }
+  handleFileRead("/");
 }
 
-void handleDataJs() {
-  String content = "const uid = " + uid + "";
-  server.send(200, "application/javascript", content);
+void handleAppJs() {
+  handleFileRead("/app.js");
 }
 
 void handleStyle() {
   handleFileRead("/style.css");
-}
-
-void handleResponse() {
-  if (server.method() == HTTP_POST) {
-    String ssidMain, passwordMain, ssidFallback, passwordFallback;
-
-    for (uint8_t i = 0; i < server.args(); i++) {
-      if (server.argName(i) == "ssid-main") {
-        ssidMain = server.arg(i);
-      }
-      if (server.argName(i) == "password-main") {
-        passwordMain = server.arg(i);
-      }
-      if (server.argName(i) == "ssid-fallback") {
-        ssidFallback = server.arg(i);
-      }
-      if (server.argName(i) == "password-fallback") {
-        passwordFallback = server.arg(i);
-      }
-    }
-
-    handleFileRead("/response.html");
-
-    String stationData = "{";
-    stationData += "\"uid\":\"" + uid + "\",";
-    stationData += "\"ssidMain\":\"" + ssidMain + "\",";
-    stationData += "\"passwordMain\":\"" + passwordMain + "\",";
-    stationData += "\"ssidFallback\":\"" + ssidFallback + "\",";
-    stationData += "\"passwordFallback\":\"" + passwordFallback + "\"";
-    stationData += "}";
-    setEeprom(stationData);
-
-    isStationSet = setupStation(ssidMain, passwordMain);
-    if (!isStationSet) {
-      isStationSet = setupStation(ssidFallback, passwordFallback);
-    }
-  }
 }
 
 String getContentType(String filename) {
@@ -100,9 +45,8 @@ void setupWebServer() {
     }
   }
   server.on("/", handleRoot);
-  server.on("/data.js", handleDataJs);
+  server.on("/app.js", handleAppJs);
   server.on("/style.css", handleStyle);
-  server.on("/response.html", handleResponse);
   server.begin();
   SPIFFS.begin();
   Serial.println("HTTP server started");
