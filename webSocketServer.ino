@@ -6,16 +6,16 @@ void setupWebSocketServer() {
 void webSocketServerEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
   switch(type) {
     case WStype_DISCONNECTED:
-      Serial.println("Disconnected!");
+      Serial.println("[WSserver] Disconnected!");
       break;
     case WStype_CONNECTED: {
       IPAddress ip = webSocketServer.remoteIP(num);
-      Serial.print("Connected from: ");
+      Serial.print("[WSserver] Connected from: ");
       Serial.println(ip);
   
       // send message to client
       if (doc["uid"] || isStationSet) {
-        webSocketServer.sendTXT(num, "{\"command\": \"CONNECT\"}");
+        webSocketServer.sendTXT(num, "{\"command\":\"CONNECT\",\"data\":{\"ssid\":\"" + currentStationSsid + "\",\"status\":\"connected\"}}");
       } else {
         webSocketServer.sendTXT(num, "{\"command\": \"INIT\", \"data\":\"" + uid +  "\"}");
       }
@@ -61,6 +61,9 @@ void handleCmdConnect(String ssidMain, String passwordMain, String ssidFallback,
   isStationSet = setupStation(ssidMain, passwordMain);
   if (!isStationSet) {
     isStationSet = setupStation(ssidFallback, passwordFallback);
+    if (!isStationSet) {
+      resetStation();
+    }
   }
 }
 

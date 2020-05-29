@@ -14,12 +14,12 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
 
   switch(type) {
     case WStype_DISCONNECTED:
-      Serial.println("[WSc] Disconnected!\n");
+      Serial.println("[WSclient] Disconnected!\n");
       break;
     case WStype_CONNECTED: {
       payloadStr = (char*)payload;
       
-      Serial.print("[WSc] Connected to url:");
+      Serial.print("[WSclient] Connected to url:");
       Serial.println(payloadStr);
 
       // send message to server when Connected
@@ -29,13 +29,13 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
     case WStype_TEXT:
       payloadStr = (char*)payload;
       
-      Serial.println("[WSc] got text");
+      Serial.println("[WSclient] got text");
       Serial.println(payloadStr);
 
       handleClientMessage(payloadStr);
       break;
     case WStype_BIN:
-      Serial.println("[WSc] got binary length:");
+      Serial.println("[WSclient] got binary length:");
       Serial.println(length);
       //hexdump(payload, length);
 
@@ -44,11 +44,11 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
       break;
     case WStype_PING:
       // pong will be send automatically
-      Serial.println("[WSc] got ping\n");
+      Serial.println("[WSclient] got ping\n");
       break;
     case WStype_PONG:
       // answer to a ping we send
-      Serial.println("[WSc] got pong\n");
+      Serial.println("[WSclient] got pong\n");
       break;
    }
 }

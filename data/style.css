@@ -52,7 +52,7 @@ h3 {
   margin: 40px 0px 10px 0px;
 }
 
-.buttons-wrapper {
+#init-block .buttons-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -66,6 +66,24 @@ input[type="submit"] {
   padding: 4px;
   background: #eeeeee;
   outline: none;
+}
+
+
+#process-block .status-block.connecting {
+  border-left: 3px solid orange;
+  padding: 0px 5px;
+}
+
+#process-block .status-block.connected {
+  border-left: 3px solid green;
+  padding: 0px 3px;
+}
+
+#process-block .buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
 }
 
 #init-block, #process-block {

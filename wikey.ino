@@ -8,13 +8,14 @@
 #include <FS.h>
 #include <ArduinoJson.h>
 
-const char *ssid = "wikey";
-const char *password = "11111111";
-const char *remoteServerIP = "192.168.1.9";
+const String ssid = "wikey";
+const String password = "11111111";
+const String remoteServerIP = "192.168.1.9";
 const int remoteServerPort = 3000;
 const int eepromSize = 4096;
 
 String payloadStr;
+String currentStationSsid;
 bool isStationSet = false;
 int StaConCntr = 0;
 String uid;
@@ -24,7 +25,7 @@ WebSocketsServer webSocketServer = WebSocketsServer(81);
 WebSocketsClient webSocketClient;
 StaticJsonDocument<4096> doc;
 
-void setup() {
+void setup() {   
   // Debugger
   setupDebugger();
 

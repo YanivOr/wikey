@@ -1,4 +1,5 @@
 void setupUid() {
+  uid = "";
   for (int i=0;i<10;i++) {
     uid += String(getSingle());
   }

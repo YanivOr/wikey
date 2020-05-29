@@ -42,6 +42,7 @@ const socketHandler = () => {
 
   ws.onclose = () => {
     // onclose
+    location.reload()
   }
 }
 
@@ -55,6 +56,16 @@ const messagesHandler = ({command, data}) => {
     case 'CONNECT':
       initBlock.style.display = 'none'
       processBlock.style.display = 'block'
+
+      const {ssid, status} = data
+
+      if (ssid && status) {
+        statusBlock.classList.add(status)
+        statusBlock.innerHTML = `
+          <div><strong>SSID</strong>: ${ssid}</div>
+          <div><strong>Status</strong>: ${status}</div>
+        `
+      }
       break;
   }
 }
@@ -76,10 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
   passwordFallbackInput = initBlock.querySelector('input[name="password-fallback"]')
   submitBtn = initBlock.querySelector('input[type="submit"]')
   processBlock = document.querySelector('#process-block')
-  statusBlock = processBlock.querySelector('.status')
+  statusBlock = processBlock.querySelector('.status-block')
   resetBtn = processBlock.querySelector('input[type="reset"]')
 
   submitBtn.addEventListener('click', () => {
+    if (!confirm('Save configurations?')) {
+      return
+    }
+
     initBlock.style.display = 'none'
     processBlock.style.display = 'block'
 
@@ -97,6 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   resetBtn.addEventListener('click', () => {
+    if (!confirm('Reset configurations?')) {
+      return
+    }
+
     initBlock.style.display = 'block'
     processBlock.style.display = 'none'
 

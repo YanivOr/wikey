@@ -1,5 +1,6 @@
 void setupAccessPoint() {
   Serial.print("Configuring access point...");
+  WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, password);
 
   IPAddress myIP = WiFi.softAPIP();
