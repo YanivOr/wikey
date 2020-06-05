@@ -4,9 +4,10 @@ let ws
 let
   initBlock,
   uidValue,
-  ssidMainInput,
+  scanBtn,
+  ssidMainSelect,
   passwordMainInput,
-  ssidFallbackInput,
+  ssidFallbackSelect,
   passwordFallbackInput,
   submitBtn,
   processBlock,
@@ -24,6 +25,9 @@ const socketHandler = () => {
 
   ws.onopen = () => {
     // onopen
+    sendMessage({
+      command: 'SCAN'
+    })
   }
 
   ws.onmessage = (e) => {
@@ -48,6 +52,14 @@ const socketHandler = () => {
 
 const messagesHandler = ({command, data}) => {
   switch (command) {
+    case 'SCAN':
+      let options = `<option value=""></option>`
+      data.map((ssid) => {
+        options += `<option value="${ssid}">${ssid}</option>`
+      })
+      ssidMainSelect.innerHTML = options
+      ssidFallbackSelect.innerHTML = options
+      break;
     case 'INIT':
       initBlock.style.display = 'block'
       processBlock.style.display = 'none'
@@ -81,14 +93,21 @@ const sendMessage = (msg) => {
 document.addEventListener('DOMContentLoaded', () => {
   initBlock = document.querySelector('#init-block')
   uidValue = initBlock.querySelector('h2.uid')
-  ssidMainInput = initBlock.querySelector('input[name="ssid-main"]')
+  scanBtn = initBlock.querySelector('button.scan')
+  ssidMainSelect = initBlock.querySelector('select[name="ssid-main"]')
   passwordMainInput = initBlock.querySelector('input[name="password-main"]')
-  ssidFallbackInput = initBlock.querySelector('input[name="ssid-fallback"]')
+  ssidFallbackSelect = initBlock.querySelector('select[name="ssid-fallback"]')
   passwordFallbackInput = initBlock.querySelector('input[name="password-fallback"]')
   submitBtn = initBlock.querySelector('input[type="submit"]')
   processBlock = document.querySelector('#process-block')
   statusBlock = processBlock.querySelector('.status-block')
   resetBtn = processBlock.querySelector('input[type="reset"]')
+
+  scanBtn.addEventListener('click', () => {
+    sendMessage({
+      command: 'SCAN'
+    })
+  })
 
   submitBtn.addEventListener('click', () => {
     if (!confirm('Save configurations?')) {
@@ -99,9 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
     processBlock.style.display = 'block'
 
     const data = {
-      ssidMain: ssidMainInput.value,
+      ssidMain: ssidMainSelect.value,
       passwordMain: passwordMainInput.value,
-      ssidFallback: ssidFallbackInput.value,
+      ssidFallback: ssidFallbackSelect.value,
       passwordFallback: passwordFallbackInput.value,
     }
 

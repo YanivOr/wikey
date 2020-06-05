@@ -6,12 +6,12 @@ void setupWebSocketServer() {
 void webSocketServerEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
   switch(type) {
     case WStype_DISCONNECTED:
-      Serial.println("[WSserver] Disconnected!");
+      debugln("[WSserver] Disconnected!");
       break;
     case WStype_CONNECTED: {
       IPAddress ip = webSocketServer.remoteIP(num);
-      Serial.print("[WSserver] Connected from: ");
-      Serial.println(ip);
+      debug("[WSserver] Connected from: ");
+      debugln(ip.toString());
   
       // send message to client
       if (doc["uid"] || isStationSet) {
@@ -23,29 +23,48 @@ void webSocketServerEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t 
       break;
     case WStype_TEXT:
       payloadStr = (char*)payload;
-      handleServerMessage(payloadStr);
+      handleServerMessage(payloadStr, num);
       break;
     case WStype_BIN:
       break;
   }
 }
 
-void handleServerMessage(String payloadStr) {
+void handleServerMessage(String payloadStr, uint8_t num) {
   DeserializationError error = deserializeJson(doc, payloadStr);
   
   if (error) {
-    Serial.print(F("deserializeJson() failed: "));
-    Serial.println(error.c_str());
+    debug(F("deserializeJson() failed: "));
+    debugln(error.c_str());
     return;
   }
 
   const String command = doc["command"];
 
-  if (command.equals("CONNECT")) {
+  if (command.equals("SCAN")) {
+    handleCmdScan(num);
+  }
+  else if (command.equals("CONNECT")) {
     handleCmdConnect(doc["data"]["ssidMain"], doc["data"]["passwordMain"], doc["data"]["ssidFallback"], doc["data"]["passwordFallback"]);
   } else if (command.equals("RESET")) {
     handleCmdReset();
   }
+}
+
+void handleCmdScan(uint8_t num) {
+  String networks [maxNetwroksNum];
+  String networksList = "";
+  
+  scanWifiNetworks(networks);
+
+  for (int i = 0; i < maxNetwroksNum; ++i) {
+    if (!networks[i].equals("")) {
+      networksList += "\"" + networks[i] + "\",";
+    }
+  }
+
+  networksList.remove(networksList.length()-1);
+  webSocketServer.sendTXT(num, "{\"command\": \"SCAN\", \"data\": [" + networksList +  "]}");
 }
 
 void handleCmdConnect(String ssidMain, String passwordMain, String ssidFallback, String passwordFallback) {

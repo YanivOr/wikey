@@ -14,13 +14,13 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
 
   switch(type) {
     case WStype_DISCONNECTED:
-      Serial.println("[WSclient] Disconnected!\n");
+      debugln("[WSclient] Disconnected!\n");
       break;
     case WStype_CONNECTED: {
       payloadStr = (char*)payload;
       
-      Serial.print("[WSclient] Connected to url:");
-      Serial.println(payloadStr);
+      debug("[WSclient] Connected to url:");
+      debugln(payloadStr);
 
       // send message to server when Connected
       webSocketClient.sendTXT("{\"id\":\"" + uid +  "\", \"type\": \"device\", \"command\": \"INIT\"}");
@@ -29,14 +29,14 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
     case WStype_TEXT:
       payloadStr = (char*)payload;
       
-      Serial.println("[WSclient] got text");
-      Serial.println(payloadStr);
+      debugln("[WSclient] got text");
+      debugln(payloadStr);
 
       handleClientMessage(payloadStr);
       break;
     case WStype_BIN:
-      Serial.println("[WSclient] got binary length:");
-      Serial.println(length);
+      debugln("[WSclient] got binary length:");
+      debugln(String(length));
       //hexdump(payload, length);
 
       // send data to server
@@ -44,11 +44,11 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
       break;
     case WStype_PING:
       // pong will be send automatically
-      Serial.println("[WSclient] got ping\n");
+      debugln("[WSclient] got ping\n");
       break;
     case WStype_PONG:
       // answer to a ping we send
-      Serial.println("[WSclient] got pong\n");
+      debugln("[WSclient] got pong\n");
       break;
    }
 }
@@ -57,8 +57,8 @@ void handleClientMessage(String payloadStr) {
   DeserializationError error = deserializeJson(doc, payloadStr);
   
   if (error) {
-    Serial.print(F("deserializeJson() failed: "));
-    Serial.println(error.c_str());
+    debug(F("deserializeJson() failed: "));
+    debugln(error.c_str());
     return;
   }
 
@@ -82,5 +82,5 @@ void handleCmdPulse(int pin, int val) {
 }
 
 void handleCmdStr(String val) {
-  Serial.println(val);
+  debugln(val);
 }

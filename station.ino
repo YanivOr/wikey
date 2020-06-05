@@ -1,5 +1,4 @@
 bool setupStation(String ssid, String password) {
-  WiFi.mode(WIFI_AP_STA);
   WiFi.begin(ssid, password);
   currentStationSsid = ssid;
 
@@ -7,33 +6,62 @@ bool setupStation(String ssid, String password) {
   StaConCntr = 0;
   while (WiFi.status() != WL_CONNECTED && StaConCntr < 20) {
     delay(500);
-    Serial.print(".");
+    debug(".");
+    debug(".");
     webSocketServer.broadcastTXT("{\"command\":\"CONNECT\",\"data\":{\"ssid\":\"" + ssid + "\",\"status\":\"connecting\"}}");
     StaConCntr++;
   }
 
   if (!WiFi.localIP()) {
-    Serial.println("");
-    Serial.print("Connection to ");
-    Serial.print(ssid);
-    Serial.println(" has failed");
+    debugln("");
+    debug("Connection to ");
+    debug(ssid);
+    debugln(" has failed");
     return false;
   }
   
-  Serial.println("");
-  Serial.print("Connected to ");
-  Serial.println(ssid);
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+  debugln("");
+  debug("Connected to ");
+  debugln(ssid);
+  debug("IP address: ");
+  debugln(WiFi.localIP().toString());
+
+  // WiFi.softAPdisconnect(true);
   webSocketServer.broadcastTXT("{\"command\":\"CONNECT\",\"data\":{\"ssid\":\"" + ssid + "\",\"status\":\"connected\"}}");
   connectToServer();
   return true;
 }
 
+void scanWifiNetworks(String (& networks) [maxNetwroksNum]) {
+  // WiFi.scanNetworks will return the number of networks found
+  int n = WiFi.scanNetworks();
+  
+  debugln("scan done");
+  if (n == 0) {
+    debugln("no networks found");
+  } else {
+    debug(String(n));
+    debugln(" networks found");
+    for (int i = 0; i < n; ++i) {
+      // Print SSID and RSSI for each network found
+      debug(String(i + 1));
+      debug(": ");
+      debug(WiFi.SSID(i));
+      debug(" (");
+      debug(String(WiFi.RSSI(i)));
+      debug(")");
+      debugln((WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*");
+
+      networks[i] = WiFi.SSID(i);
+    }
+  }
+  debugln("");
+}
+
 void connectToServer() {
-  Serial.print("Connecting to remote server via websocket...");
+  debug("Connecting to remote server via websocket...");
   setupWebSocketClient();
-  Serial.println("connected");
+  debugln("connected");
 }
 
 void disconnectStation() {
@@ -41,7 +69,7 @@ void disconnectStation() {
 }
 
 void resetStation() {
-  Serial.println("Resetting station...");
+  debugln("Resetting station...");
   clearEeprom();
   ESP.restart();
 }

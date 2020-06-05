@@ -15,20 +15,30 @@
       <h3>Main network (mandatory)</h3>
       <div class="row">
         <label>SSID</label>
-        <input name="ssid-main" type="text" />
+        <div class="input-block">
+          <select name="ssid-main"></select>
+          <button class="scan">Scan</button>
+        </div>
       </div>
       <div class="row">
         <label>Password</label>
-        <input name="password-main"  type="password" />
+        <div class="input-block">
+          <input name="password-main"  type="password" />
+        </div>
       </div>
       <h3>Fallback network</h3>
       <div class="row">
         <label>SSID</label>
-        <input name="ssid-fallback" type="text" />
+        <div class="input-block">
+          <select name="ssid-fallback"></select>
+          <button class="scan">Scan</button>
+        </div>
       </div>
       <div class="row">
         <label>Password</label>
-        <input name="password-fallback" type="password" />
+        <div class="input-block">
+          <input name="password-fallback" type="password" />
+        </div>
       </div>
       <div class="buttons-wrapper">
         <input type="submit" />

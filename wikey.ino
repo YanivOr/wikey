@@ -7,12 +7,17 @@
 #include <WebSocketsClient.h>
 #include <FS.h>
 #include <ArduinoJson.h>
+#include <EasyButton.h>
 
+#define FLASH_BTN_PIN 0
+
+const bool debugger = true;
 const String ssid = "wikey";
 const String password = "11111111";
-const String remoteServerIP = "192.168.1.9";
+const String remoteServerIP = "192.168.43.80";
 const int remoteServerPort = 3000;
 const int eepromSize = 4096;
+const int maxNetwroksNum = 50;
 
 String payloadStr;
 String currentStationSsid;
@@ -24,9 +29,12 @@ ESP8266WebServer server(80);
 WebSocketsServer webSocketServer = WebSocketsServer(81);
 WebSocketsClient webSocketClient;
 StaticJsonDocument<4096> doc;
+EasyButton flashButton(FLASH_BTN_PIN, 40);
 
-void setup() {   
-  // Debugger
+void setup() {
+  WiFi.mode(WIFI_AP_STA);
+  
+  // debugger
   setupDebugger();
 
   // Eeprom
@@ -47,6 +55,9 @@ void setup() {
 
   // WebSocket
   setupWebSocketServer();
+
+  // Flash button
+  setupFlashButton();
 }
 
 void loop() {
@@ -56,4 +67,7 @@ void loop() {
   // WebSocket
   webSocketServer.loop();
   webSocketClient.loop();
+
+  // Flash button
+  loopFlashButton();
 }

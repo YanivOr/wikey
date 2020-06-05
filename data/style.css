@@ -14,38 +14,64 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 295px; 
+  width: 295px;
 }
 
 .uid {
-  width: 246px;
   text-align: center;
   font-size: 30px;
   font-weight: bold;
   padding: 5px 10px;
   background: #dddddd;
   color: #333333;
-  letter-spacing: 3px;
+  letter-spacing: 5px;
 }
 
 .row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin: 0px 0px 8px 0px;
 }
 
-label {
+.row label {
   font-size: 15px;
   width: 75px;
 }
 
-input[type="text"], input[type="password"] {
+.input-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 1;
+}
+
+select {
   border: 0px;
   border-radius: 3px;
   padding: 4px;
   background: #eeeeee;
+  margin: 0px 7px;
+  width: 122px;
+}
+
+input[type="password"] {
+  border: 0px;
+  border-radius: 3px;
+  padding: 4px;
+  background: #eeeeee;
+  margin: 0px 0px 0px 7px;
+  width: 100%;
+}
+
+button.scan {
+  border: 0px;
+  border-radius: 3px;
+  width: 70px;
+  padding: 4px;
+  background: #eeeeee;
+  outline: none;
 }
 
 h3 {

@@ -19,7 +19,7 @@ String getContentType(String filename) {
 }
 
 bool handleFileRead(String path) {
-  Serial.println("handleFileRead: " + path);
+  debugln("handleFileRead: " + path);
   if (path.endsWith("/")) path += "index.html";
   String contentType = getContentType(path);
   if (SPIFFS.exists(path)) {
@@ -28,7 +28,7 @@ bool handleFileRead(String path) {
     file.close();
     return true;
   }
-  Serial.println("\tFile Not Found");
+  debugln("\tFile Not Found");
   return false;
 }
 
@@ -52,7 +52,7 @@ void setupWebServer() {
   server.on("/style.css", handleStyle);
   server.begin();
   SPIFFS.begin();
-  Serial.println("HTTP server started");
+  debugln("HTTP server started");
 }
 
 void loopWebServer() {

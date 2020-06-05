@@ -8,8 +8,8 @@ void pulseGpio(int pin, int val) {
   
   for (int i=0;i<5;i++) {
     digitalWrite(pin, val);
-    delay(50);
+    // delay(50);
     digitalWrite(pin, !val);
-    delay(50);
+    //delay(50);
   }
 }
