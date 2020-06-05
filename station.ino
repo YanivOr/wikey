@@ -26,7 +26,7 @@ bool setupStation(String ssid, String password) {
   debug("IP address: ");
   debugln(WiFi.localIP().toString());
 
-  // WiFi.softAPdisconnect(true);
+  WiFi.softAPdisconnect(true);
   webSocketServer.broadcastTXT("{\"command\":\"CONNECT\",\"data\":{\"ssid\":\"" + ssid + "\",\"status\":\"connected\"}}");
   connectToServer();
   return true;
