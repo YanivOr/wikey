@@ -14,7 +14,7 @@
 const bool debugger = true;
 const String ssid = "wikey";
 const String password = "11111111";
-const String remoteServerIP = "192.168.43.80";
+const String remoteServerIP = "192.168.1.6";
 const int remoteServerPort = 3000;
 const int eepromSize = 4096;
 const int maxNetwroksNum = 50;
@@ -24,6 +24,14 @@ String currentStationSsid;
 bool isStationSet = false;
 int StaConCntr = 0;
 String uid;
+unsigned long pulseIntervalCounter = 0;
+unsigned long pulseDurationCounter = 0;
+int state = LOW;
+bool pulseEnabled = false;
+int plusePin = NULL;
+int pulseState = NULL;
+long pulseInterval = NULL;
+long pulseDuration = NULL;
 
 ESP8266WebServer server(80);
 WebSocketsServer webSocketServer = WebSocketsServer(81);
@@ -70,4 +78,7 @@ void loop() {
 
   // Flash button
   loopFlashButton();
+
+  // GPIO
+  loopPulseGpio();
 }

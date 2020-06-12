@@ -3,13 +3,44 @@ void onOffGpio(int pin, int val) {
   digitalWrite(pin, val);
 }
 
-void pulseGpio(int pin, int val) {
-  pinMode(pin, OUTPUT);
+void setPulse(int pin, int startAs, long interval, long duration) {
+  pulseEnabled = true;
+  plusePin = pin;
+  pulseState = startAs;
+  pulseInterval = interval;
+  pulseDuration = duration;
+}
+
+void unsetPulse() {
+  pulseEnabled = false;
+  plusePin = NULL;
+  pulseState = NULL;
+  pulseInterval = NULL;
+  pulseDuration = NULL;
+}
+
+void loopPulseGpio() {
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - pulseDurationCounter >= pulseDuration) {
+    pulseDurationCounter = currentMillis;
+    pulseEnabled = false;
+  }
+
+  if (!pulseEnabled) {
+    return;
+  }
   
-  for (int i=0;i<5;i++) {
-    digitalWrite(pin, val);
-    // delay(50);
-    digitalWrite(pin, !val);
-    //delay(50);
+  pinMode(plusePin, OUTPUT);
+
+  if (currentMillis - pulseIntervalCounter >= pulseInterval) {
+    pulseIntervalCounter = currentMillis;
+
+    if (pulseState == LOW) {
+      pulseState = HIGH;
+    } else {
+      pulseState = LOW;
+    }
+    digitalWrite(plusePin, pulseState);
   }
 }
