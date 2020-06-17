@@ -26,13 +26,13 @@ bool isStationSet = false;
 int StaConCntr = 0;
 String uid;
 unsigned long pulseIntervalCounter = 0;
-unsigned long pulseDurationCounter = 0;
+int pulseCounter = 0;
 int state = LOW;
 bool pulseEnabled = false;
 int plusePin = NULL;
 int pulseState = NULL;
 long pulseInterval = NULL;
-long pulseDuration = NULL;
+int pulseAmount = NULL;
 
 ESP8266WebServer server(80);
 WebSocketsServer webSocketServer = WebSocketsServer(81);
