@@ -15,8 +15,8 @@
 const bool debugger = true;
 const String ssid = "wikey";
 const String password = "11111111";
-const String remoteServerIP = "192.168.1.6";
-const int remoteServerPort = 3000;
+const String remoteServerIP = "128.199.37.116";
+const int remoteServerPort = 8000;
 const int eepromSize = 4096;
 const int maxNetwroksNum = 50;
 
