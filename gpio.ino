@@ -24,8 +24,8 @@ void loopPulseGpio() {
   unsigned long currentMillis = millis();
   pinMode(plusePin, OUTPUT);
 
-  if (currentMillis / 500 - pulseFreqCounter >= pulseFreq) {
-    pulseFreqCounter = currentMillis / 500;
+  if (currentMillis - pulseFreqCounter >= 500 / pulseFreq) {
+    pulseFreqCounter = currentMillis;
     pulseCounter++;
 
     if (pulseState == LOW) {
