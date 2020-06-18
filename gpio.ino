@@ -7,7 +7,7 @@ void setPulse(int pin, int startAs, int freq, int amount) {
   pulseEnabled = true;
   plusePin = pin;
   pulseState = startAs;
-  pulseFreq = freq;
+  pulseFreq = freq > 500 ? 500 : freq;
   pulseAmount = amount;
   pulseCounter = 0;
 }
