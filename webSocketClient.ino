@@ -67,7 +67,7 @@ void handleClientMessage(String payloadStr) {
   if (command.equals("GPIO")) {
     handleCmdGpio(doc["data"]["pin"], doc["data"]["val"]);
   } else if (command=="PULSE") {
-    handleCmdPulse(doc["data"]["pin"], doc["data"]["startAs"], doc["data"]["interval"], doc["data"]["amount"]);
+    handleCmdPulse(doc["data"]["pin"], doc["data"]["startAs"], doc["data"]["freq"], doc["data"]["amount"]);
   } else if (command=="STR") {
     handleCmdStr(doc["data"]["val"]);
   }
@@ -77,8 +77,8 @@ void handleCmdGpio(int pin, int val) {
   onOffGpio(pin, val);
 }
 
-void handleCmdPulse(int pin, int startAs, long interval, int amount) {
-  setPulse(pin, startAs, interval, amount);
+void handleCmdPulse(int pin, int startAs, int freq, int amount) {
+  setPulse(pin, startAs, freq, amount);
 }
 
 void handleCmdStr(String val) {

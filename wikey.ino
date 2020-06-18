@@ -25,13 +25,13 @@ String currentStationSsid;
 bool isStationSet = false;
 int StaConCntr = 0;
 String uid;
-unsigned long pulseIntervalCounter = 0;
+int pulseFreqCounter = 0;
 int pulseCounter = 0;
 int state = LOW;
 bool pulseEnabled = false;
 int plusePin = NULL;
 int pulseState = NULL;
-long pulseInterval = NULL;
+int pulseFreq = NULL;
 int pulseAmount = NULL;
 
 ESP8266WebServer server(80);
