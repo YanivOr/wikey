@@ -50,12 +50,24 @@ const socketHandler = () => {
   }
 }
 
+const encryptionToString = (encryption) => {
+  const encryptions = {
+    2: 'TKIP (WPA)',
+    5: 'WEP',
+    4: 'CCMP (WPA)',
+    7: 'NONE',
+    8: 'AUTO',
+  };
+
+  return encryptions[encryption];
+}
+
 const messagesHandler = ({command, data}) => {
   switch (command) {
     case 'SCAN':
       let options = `<option value=""></option>`
-      data.map((ssid) => {
-        options += `<option value="${ssid}">${ssid}</option>`
+      data.map(({ssid, rssi, encryption}) => {
+        options += `<option value="${ssid}">${ssid} - ${rssi}dBm - ${encryptionToString(encryption)}</option>`
       })
       ssidMainSelect.innerHTML = options
       ssidFallbackSelect.innerHTML = options

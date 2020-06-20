@@ -51,9 +51,9 @@ void scanWifiNetworks(String (& networks) [maxNetwroksNum]) {
       debug(" (");
       debug(String(WiFi.RSSI(i)));
       debug(")");
-      debugln((WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*");
+      debugln(String(WiFi.encryptionType(i)));
 
-      networks[i] = WiFi.SSID(i);
+      networks[i] = "{\"ssid\": \"" + WiFi.SSID(i) + "\", \"rssi\":\"" + String(WiFi.RSSI(i)) + "\", \"encryption\": \"" + String(WiFi.encryptionType(i)) + "\"}";
     }
   }
   debugln("");

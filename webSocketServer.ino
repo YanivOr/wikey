@@ -59,7 +59,7 @@ void handleCmdScan(uint8_t num) {
 
   for (int i = 0; i < maxNetwroksNum; ++i) {
     if (!networks[i].equals("")) {
-      networksList += "\"" + networks[i] + "\",";
+      networksList += networks[i] + ",";
     }
   }
 
