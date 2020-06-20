@@ -22,6 +22,7 @@ const int maxNetwroksNum = 50;
 String payloadStr;
 String currentStationSsid;
 bool isStationSet = false;
+bool webServerEnabled = true;
 int StaConCntr = 0;
 String uid;
 int pulseFreqCounter = 0;

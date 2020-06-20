@@ -9,4 +9,5 @@ void loopFlashButton() {
 
 void onLongPressed() {
   setupAccessPoint();
+  webServerEnabled = true;
 }

@@ -56,5 +56,7 @@ void setupWebServer() {
 }
 
 void loopWebServer() {
-  server.handleClient();
+  if (webServerEnabled) {
+    server.handleClient();
+  }
 }
