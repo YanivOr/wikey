@@ -1,4 +1,21 @@
-bool setupStation(String ssid, String password) {
+void setupStation() {
+  const String ssidMain = doc["ssidMain"];
+  const String passwordMain = doc["passwordMain"];
+  const String ssidFallback = doc["ssidFallback"];
+  const String passwordFallback = doc["passwordFallback"];
+
+  if (!ssidMain.equals("null") && !ssidMain.equals("") && !passwordMain.equals("null") && !passwordMain.equals("")) {
+    isStationSet = setStation(ssidMain, passwordMain);
+    if (!isStationSet && !ssidFallback.equals("null") && !ssidFallback.equals("") && !passwordFallback.equals("null") && !passwordFallback.equals("")) {
+      isStationSet = setStation(ssidFallback, passwordFallback);
+      if (!isStationSet) {
+        resetStation();
+      }
+    }
+  }
+}
+
+bool setStation(String ssid, String password) {
   WiFi.begin(ssid, password);
   currentStationSsid = ssid;
 

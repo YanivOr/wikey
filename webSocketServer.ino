@@ -77,9 +77,9 @@ void handleCmdConnect(String ssidMain, String passwordMain, String ssidFallback,
   stationData += "}";
   setEeprom(stationData);
 
-  isStationSet = setupStation(ssidMain, passwordMain);
+  isStationSet = setStation(ssidMain, passwordMain);
   if (!isStationSet) {
-    isStationSet = setupStation(ssidFallback, passwordFallback);
+    isStationSet = setStation(ssidFallback, passwordFallback);
     if (!isStationSet) {
       resetStation();
     }

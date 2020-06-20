@@ -59,6 +59,9 @@ void setup() {
   // Access Point
   setupAccessPoint();
 
+  // Station
+  setupStation();
+
   // Web Server
   setupWebServer();
 

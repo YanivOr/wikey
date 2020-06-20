@@ -33,20 +33,6 @@ bool handleFileRead(String path) {
 }
 
 void setupWebServer() {
-  const String ssidMain = doc["ssidMain"];
-  const String passwordMain = doc["passwordMain"];
-  const String ssidFallback = doc["ssidFallback"];
-  const String passwordFallback = doc["passwordFallback"];
-
-  if (!ssidMain.equals("null") && !ssidMain.equals("") && !passwordMain.equals("null") && !passwordMain.equals("")) {
-    isStationSet = setupStation(ssidMain, passwordMain);
-    if (!isStationSet && !ssidFallback.equals("null") && !ssidFallback.equals("") && !passwordFallback.equals("null") && !passwordFallback.equals("")) {
-      isStationSet = setupStation(ssidFallback, passwordFallback);
-      if (!isStationSet) {
-        resetStation();
-      }
-    }
-  }
   server.on("/", handleRoot);
   server.on("/app.js", handleAppJs);
   server.on("/style.css", handleStyle);
