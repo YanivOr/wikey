@@ -33,12 +33,14 @@ bool handleFileRead(String path) {
 }
 
 void setupWebServer() {
+  server.begin();
+  debugln("HTTP server started");
+  SPIFFS.begin();
+  debugln("SPIFFS started");
+  
   server.on("/", handleRoot);
   server.on("/app.js", handleAppJs);
   server.on("/style.css", handleStyle);
-  server.begin();
-  SPIFFS.begin();
-  debugln("HTTP server started");
 }
 
 void loopWebServer() {
