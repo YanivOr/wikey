@@ -3,11 +3,11 @@ void setupWebSocketClient() {
   webSocketClient.onEvent(webSocketClientEvent);
   webSocketClient.setReconnectInterval(5000);
   
-  // start heartbeat (optional)
+  // start heartbeat
   // ping server every 15000 ms
   // expect pong from server within 3000 ms
   // consider connection disconnected if pong is not received 2 times
-  // webSocketClient.enableHeartbeat(15000, 3000, 2);
+  webSocketClient.enableHeartbeat(15000, 3000, 2);
 }
 
 void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
@@ -15,6 +15,7 @@ void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
   switch(type) {
     case WStype_DISCONNECTED:
       debugln("[WSclient] Disconnected!\n");
+      ESP.restart();
       break;
     case WStype_CONNECTED: {
       payloadStr = (char*)payload;
