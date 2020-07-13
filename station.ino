@@ -5,9 +5,9 @@ void setupStation() {
   const String passwordFallback = doc["passwordFallback"];
 
   if (!ssidMain.equals("null") && !ssidMain.equals("") && !passwordMain.equals("null") && !passwordMain.equals("")) {
-    while (!isStationSet) {
+    while (!isStationSet && stationSetupEnabled) {
       isStationSet = setStation(ssidMain, passwordMain);
-      if (!isStationSet && !ssidFallback.equals("null") && !ssidFallback.equals("") && !passwordFallback.equals("null") && !passwordFallback.equals("")) {
+      if (!isStationSet && stationSetupEnabled && !ssidFallback.equals("null") && !ssidFallback.equals("") && !passwordFallback.equals("null") && !passwordFallback.equals("")) {
         isStationSet = setStation(ssidFallback, passwordFallback);
       }
     }
@@ -22,6 +22,7 @@ bool setStation(String ssid, String password) {
   StaConCntr = 0;
   while (WiFi.status() != WL_CONNECTED && StaConCntr < 20) {
     delay(500);
+    loopFlashButton();
     debug(".");
     debug(".");
     webSocketServer.broadcastTXT("{\"command\":\"CONNECT\",\"data\":{\"ssid\":\"" + ssid + "\",\"status\":\"connecting\"}}");

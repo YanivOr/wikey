@@ -22,6 +22,7 @@ const int maxNetwroksNum = 50;
 String payloadStr;
 String currentStationSsid;
 bool isStationSet = false;
+bool stationSetupEnabled = true;
 bool webServerEnabled = true;
 int StaConCntr = 0;
 String uid;
@@ -55,6 +56,9 @@ void setup() {
   } else {
     uid = String((const char*)doc["uid"]);
   }
+
+  // Flash button
+  setupFlashButton();
   
   // Access Point
   setupAccessPoint();
@@ -67,9 +71,6 @@ void setup() {
 
   // WebSocket
   setupWebSocketServer();
-
-  // Flash button
-  setupFlashButton();
 }
 
 void loop() {
