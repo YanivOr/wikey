@@ -26,8 +26,9 @@ bool stationSetupEnabled = true;
 bool webServerEnabled = true;
 int StaConCntr = 0;
 String uid;
-int pulseFreqCounter = 0;
+unsigned long pulseFreqCounter = 0;
 int pulseCounter = 0;
+unsigned long pingIntervalCounter = 0;
 int state = LOW;
 bool pulseEnabled = false;
 int plusePin = NULL;
@@ -86,4 +87,7 @@ void loop() {
 
   // GPIO
   loopPulseGpio();
+
+  // PING
+  loopPing();
 }

@@ -2,12 +2,6 @@ void setupWebSocketClient() {
   webSocketClient.begin(remoteServerIP, remoteServerPort, "/");
   webSocketClient.onEvent(webSocketClientEvent);
   webSocketClient.setReconnectInterval(5000);
-  
-  // start heartbeat
-  // ping server every 15000 ms
-  // expect pong from server within 3000 ms
-  // consider connection disconnected if pong is not received 2 times
-  webSocketClient.enableHeartbeat(15000, 3000, 2);
 }
 
 void webSocketClientEvent(WStype_t type, uint8_t * payload, size_t length) {
@@ -84,4 +78,18 @@ void handleCmdPulse(int pin, int startAs, int freq, int amount) {
 
 void handleCmdStr(String val) {
   debugln(val);
+}
+
+void loopPing() {
+  if (!isStationSet) {
+    return;
+  }
+  
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - pingIntervalCounter >= 15000) {
+    pingIntervalCounter = currentMillis;
+  
+    webSocketClient.sendTXT("{\"id\":\"" + uid +  "\", \"type\": \"device\", \"command\": \"PING\"}");
+  }
 }
