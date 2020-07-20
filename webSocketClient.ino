@@ -1,5 +1,11 @@
 void setupWebSocketClient() {
-  webSocketClient.begin(remoteServerIP, remoteServerPort, "/");
+  debugln(remoteServerAddress + ":" + remoteServerPort);
+    
+  if (remoteServerAddress.equals("") || remoteServerPort == 0) {
+    return;
+  }
+
+  webSocketClient.begin(remoteServerAddress, remoteServerPort, "/");
   webSocketClient.onEvent(webSocketClientEvent);
   webSocketClient.setReconnectInterval(5000);
 }

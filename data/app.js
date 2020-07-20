@@ -9,6 +9,8 @@ let
   passwordMainInput,
   ssidFallbackSelect,
   passwordFallbackInput,
+  serverAddressInput,
+  serverPortInput,
   submitBtn,
   processBlock,
   statusBlock,
@@ -110,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
   passwordMainInput = initBlock.querySelector('input[name="password-main"]')
   ssidFallbackSelect = initBlock.querySelector('select[name="ssid-fallback"]')
   passwordFallbackInput = initBlock.querySelector('input[name="password-fallback"]')
+  serverAddressInput = initBlock.querySelector('input[name="server-address"]')
+  serverPortInput = initBlock.querySelector('input[name="server-port"]')
   submitBtn = initBlock.querySelector('input[type="submit"]')
   processBlock = document.querySelector('#process-block')
   statusBlock = processBlock.querySelector('.status-block')
@@ -122,19 +126,49 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   submitBtn.addEventListener('click', () => {
-    if (!confirm('Save configurations?')) {
-      return
-    }
-
-    initBlock.style.display = 'none'
-    processBlock.style.display = 'block'
+    let isError = false
 
     const data = {
       ssidMain: ssidMainSelect.value,
       passwordMain: passwordMainInput.value,
       ssidFallback: ssidFallbackSelect.value,
       passwordFallback: passwordFallbackInput.value,
+      serverAddress: serverAddressInput.value,
+      serverPort: serverPortInput.value,
     }
+
+    ssidMainSelect.style.border = '1px solid #eeeeee'
+    passwordMainInput.style.border = '1px solid #eeeeee'
+    serverAddressInput.style.border = '1px solid #eeeeee'
+    serverPortInput.style.border = '1px solid #eeeeee'
+
+    if (!data.ssidMain) {
+      ssidMainSelect.style.border = '1px solid red'
+      isError = true
+    }
+    if (!data.passwordMain) {
+      passwordMainInput.style.border = '1px solid red'
+      isError = true
+    }
+    if (!data.serverAddress) {
+      serverAddressInput.style.border = '1px solid red'
+      isError = true
+    }
+    if (!data.serverPort) {
+      serverPortInput.style.border = '1px solid red'
+      isError = true
+    }
+
+    if (isError) {
+      return
+    }
+
+    if (!confirm('Save configurations?')) {
+      return
+    }
+
+    initBlock.style.display = 'none'
+    processBlock.style.display = 'block'
 
     sendMessage({
       command: 'CONNECT',

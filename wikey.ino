@@ -14,8 +14,6 @@
 const bool debugger = true;
 const String ssid = "wikey";
 const String password = "11111111";
-const String remoteServerIP = "128.199.37.116";
-const int remoteServerPort = 8000;
 const int eepromSize = 4096;
 const int maxNetwroksNum = 50;
 
@@ -26,6 +24,8 @@ bool stationSetupEnabled = true;
 bool webServerEnabled = true;
 int StaConCntr = 0;
 String uid;
+String remoteServerAddress = "";
+int remoteServerPort = 0;
 unsigned long pulseFreqCounter = 0;
 int pulseCounter = 0;
 unsigned long pingIntervalCounter = 0;
@@ -56,6 +56,8 @@ void setup() {
     setupUid();
   } else {
     uid = String((const char*)doc["uid"]);
+    remoteServerAddress = String((const char*)doc["serverAddress"]);
+    remoteServerPort = String((const char*)doc["serverPort"]).toInt();
   }
 
   // Flash button

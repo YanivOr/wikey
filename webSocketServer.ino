@@ -45,7 +45,7 @@ void handleServerMessage(String payloadStr, uint8_t num) {
     handleCmdScan(num);
   }
   else if (command.equals("CONNECT")) {
-    handleCmdConnect(doc["data"]["ssidMain"], doc["data"]["passwordMain"], doc["data"]["ssidFallback"], doc["data"]["passwordFallback"]);
+    handleCmdConnect(doc["data"]["ssidMain"], doc["data"]["passwordMain"], doc["data"]["ssidFallback"], doc["data"]["passwordFallback"], doc["data"]["serverAddress"], doc["data"]["serverPort"]);
   } else if (command.equals("RESET")) {
     handleCmdReset();
   }
@@ -67,15 +67,20 @@ void handleCmdScan(uint8_t num) {
   webSocketServer.sendTXT(num, "{\"command\": \"SCAN\", \"data\": [" + networksList +  "]}");
 }
 
-void handleCmdConnect(String ssidMain, String passwordMain, String ssidFallback, String passwordFallback) {
+void handleCmdConnect(String ssidMain, String passwordMain, String ssidFallback, String passwordFallback, String serverAddress, String serverPort) {
   String stationData = "{";
   stationData += "\"uid\":\"" + uid + "\",";
   stationData += "\"ssidMain\":\"" + ssidMain + "\",";
   stationData += "\"passwordMain\":\"" + passwordMain + "\",";
   stationData += "\"ssidFallback\":\"" + ssidFallback + "\",";
-  stationData += "\"passwordFallback\":\"" + passwordFallback + "\"";
+  stationData += "\"passwordFallback\":\"" + passwordFallback + "\",";
+  stationData += "\"serverAddress\":\"" + serverAddress + "\",";
+  stationData += "\"serverPort\":\"" + serverPort + "\"";
   stationData += "}";
   setEeprom(stationData);
+
+  remoteServerAddress = serverAddress;
+  remoteServerPort = serverPort.toInt();
 
   isStationSet = setStation(ssidMain, passwordMain);
   if (!isStationSet) {
