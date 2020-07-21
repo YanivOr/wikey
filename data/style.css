@@ -90,7 +90,7 @@ h3 {
   margin-top: 25px;
 }
 
-input[type="submit"] {
+input[type="submit"], input[type="reset"] {
   border: 0px;
   border-radius: 3px;
   width: 70px;
@@ -99,6 +99,9 @@ input[type="submit"] {
   outline: none;
 }
 
+#process-block {
+  margin-top: 20px;
+}
 
 #process-block .status-block.connecting {
   border-left: 3px solid orange;
